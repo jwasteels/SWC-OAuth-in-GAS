@@ -1,5 +1,3 @@
-const  FACrange = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Parameters').getRange('_SWC_FACTIONS_SHORT');
-
 /**
  * return an string with replaced placeholders
  * @param {string} stringWithPlaceholders string containing place holders to be processed. Each place holder should be enclosed within {}

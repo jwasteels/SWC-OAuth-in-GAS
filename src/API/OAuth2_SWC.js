@@ -130,7 +130,10 @@ function getAccessTokenByName(name = default_user, type=1) { //You can set a def
  * @param {string} uid uid of the character
  * @return {string} a valid access token
  */
- function getAccessTokenByUID(uid='1:XXX') { //You can set a default character's UID here
+function getAccessTokenByUID(uid='') {
+  if (uid == '') {
+    return false;
+  }
   var tokenObject = getTokenFromGlobal(uid)
   var accessToken = getAccessTokenByToken(tokenObject);
   Logger.log('Access token for %s: %s',uid,accessToken);

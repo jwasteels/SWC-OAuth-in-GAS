@@ -1,6 +1,5 @@
 //Constants
 const accountSheetName = 'Accounts';
-const accountRangeName = '_SWC_Accounts';
 const accountRange = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(accountSheetName).getRange('A:I');
 
 function updateAccounts(tokenObject) {
