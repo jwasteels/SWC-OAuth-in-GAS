@@ -41,7 +41,7 @@ function getSWCProfile(handle='') {
     "method" : "GET",
     "muteHttpExceptions": true
   };
-  var response = retrieveJSON(api,options);
+  var profileJSON = retrieveJSON(api,options);
   var profileObject = {}
   profileObject.handle = profileJSON.name
   profileObject.UID = profileJSON.uid
