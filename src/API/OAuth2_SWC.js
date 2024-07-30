@@ -63,10 +63,9 @@ function handleAuthorization(request) {
       "payload":param,
       "muteHttpExceptions": true
     };
-    //var response = UrlFetchApp.fetch(url, options);
-    tokenXML = retrieveXML(tokenBaseUrl, options)
-    Logger.log('Token XML: '+ tokenXML);
-    var tokenObject = buildObjectFromTokenXML(tokenXML);
+    tokenJSON = retrieveJSON(tokenBaseUrl, options)
+    Logger.log('Token response: '+ tokenJSON);
+    var tokenObject = buildObjectFromTokenJSON(tokenJSON);
     //Enrich the token with profile information
     var profile = getSWCProfileByToken(tokenObject);
     tokenObject.handle = profile.handle;
@@ -82,8 +81,6 @@ function handleAuthorization(request) {
     } else {
       return HtmlService.createHtmlOutput('Denied. You can close this tab');
     }
-
-
 }
 
 /**
@@ -193,14 +190,14 @@ function useRefreshToken(tokenObject) {
       "muteHttpExceptions": true
     };
     //var response = UrlFetchApp.fetch(url, options);
-    var tokenXML = retrieveXML(tokenBaseUrl, options)
-    if (tokenXML == false) {
+    var tokenJSON = retrieveJSON(tokenBaseUrl, options)
+    if (tokenJSON == false) {
       //Line below doesn't work, not sure why?
-      SpreadsheetApp.getActiveSpreadsheet().toast("Did not receive the proper XML response. If you are " + tokenObject.handle +" please perform new authentication.","⚠️ Error using the refresh token",30);
-      Logger.log('Error getting the refresh token: did not receive XML response code 200')
+      SpreadsheetApp.getActiveSpreadsheet().toast("Did not receive the proper JSON response. If you are " + tokenObject.handle +" please perform new authentication.","⚠️ Error using the refresh token",30);
+      Logger.log('Error getting the refresh token: did not receive JSON response code 200')
       return false;
     } else {
-      tokenObject=buildObjectFromTokenXML(tokenXML,tokenObject);
+      tokenObject=buildObjectFromTokenJSON(tokenJSON,tokenObject);
       //Store or update the token object in global storage
       Logger.log('Token object: '+ tokenObject);
       var storeResult = saveTokenToGlobal(tokenObject);
@@ -212,19 +209,19 @@ function useRefreshToken(tokenObject) {
   //On failure, go to getAuthorization();
 }
 /**
- * Process an XML response to get updated token information to build/update a tokenObject
- * @param {xml response} xml the xml response when getting tokens from the server
+ * Process a JSON response to get updated token information to build/update a tokenObject
+ * @param {JSON response} JSON the JSON response when getting tokens from the server
  * @param {object} tokenObject optional, when updating an existing token
  * @returns {object} tokenObject
  */
-function buildObjectFromTokenXML (xml, tokenObject={}) {
-  var token = xml.getRootElement();
-  try {tokenObject.accessToken = token.getChild('access_token').getValue();} catch(e) {Logger.log('No access token: '+e)}
+function buildObjectFromTokenJSON (JSON, tokenObject={}) {
+  var token = JSON;
+  try {tokenObject.accessToken = token.access_token;} catch(e) {Logger.log('No access token: '+e)}
   try {
-    tokenObject.expiresIn = token.getChild('expires_in').getValue();
+    tokenObject.expiresIn = token.expires_in;
     tokenObject.expiresAt = Math.floor(Date.now()/1000) + Number(tokenObject.expiresIn);
   } catch(e) {Logger.log('No expiration: '+e)}
-  try {tokenObject.scope = token.getChild('scope').getValue();} catch(e) {Logger.log('No scope: '+e)}
-  try {tokenObject.refreshToken =  token.getChild('refresh_token').getValue();} catch(e) {Logger.log('No refresh token: '+e)}
+  try {tokenObject.scope = token.scope;} catch(e) {Logger.log('No scope: '+e)}
+  try {tokenObject.refreshToken =  token.refresh_token;} catch(e) {Logger.log('No refresh token: '+e)}
   return tokenObject;
 }
