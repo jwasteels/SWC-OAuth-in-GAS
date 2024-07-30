@@ -16,7 +16,7 @@ function getSWCProfile(handle='') {
       if (result == SpreadsheetApp.getUi().Button.OK) {getSWCProfile()}
     }
   } else { //handle provided, get public profile info with default access token
-    tokenObject = getTokenFromGlobalByName('XXX'); //Default user goes here
+    tokenObject = getTokenFromGlobalByName(default_user); //Default user goes here as defined as constant
     var profileObject = getSWCProfileByToken(tokenObject,handle);
   }  
   return profileObject;

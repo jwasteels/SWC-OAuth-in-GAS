@@ -12,5 +12,5 @@ You will need to add these scopes to your worksheet's apssscript.json:
 ]
 ```
 
-When deploying to your system, first get your redirect uri by running the associated function. Then, after registering your new app, fill in the remaining 'XXX' values in the files.
+When deploying to your system, first get your redirect uri by running the associated function. Then, after registering your new app, fill in the remaining 'XXX' values in Secrets.js file.
 
