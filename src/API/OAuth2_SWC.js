@@ -21,9 +21,10 @@ function getAuthorization(scope=['CHARACTER_READ']) {
     .withTimeout(3600);
     var stateToken=state.createToken();
     //Logger.log(stateToken);
-  var access_type = 'offline';
+  var access_type = 'offline'; //set to 'offline' if you want the script to act on its own, like for automated updates
   var renew = '&renew_previously_granted=yes';
-  
+  scope = scope.join(' ');
+ 
   var url = authorizationBaseUrl + '?scope='+ scope + '&state='+stateToken + '&response_type='+response_type+'&redirect_uri='+redirect_uri+'&access_type='+access_type+'&client_id='+CLIENT_ID+renew;
   Logger.log('Full authorization url: '+url);
   openUrl(url);
