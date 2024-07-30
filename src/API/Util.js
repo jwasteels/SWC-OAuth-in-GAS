@@ -100,39 +100,6 @@ function deleteRange(sheetName, rangeName) {
   } else {return false}
 }
 
-/** Update the dashboard with a timestamp for update run
- * @FAC string, shorthand for the faction
- * @resource string, choice of (material, production)
- */
-function updateDashboard (FAC='XXX',resource='material') { //You can set default shorthand for the faction here
-  var resource = PROPER_CASE(resource);
-  var range = SpreadsheetApp.getActiveSpreadsheet().getRangeByName('_SWC_DASHBOARD');
-  var values = range.getValues();
-  for (var c=0;c<range.getWidth();c++) {
-    if (values[0][c]==resource){
-      var colNumber = c+1;
-      break;
-    }
-  }
-  for (var r=0;r < values.length;r++ ) {
-    if (values[r][0]==FAC) {
-      var rowNumber = r+1;
-      break;
-    }
-  }
-  var cell = range.getCell(rowNumber,colNumber)
-  //Get current date + time
-  var time = Utilities.formatDate(new Date(),"GMT+1","dd/MM/yyy HH:mm")
-  var SWCtime = getSWCTime()
-  var SWCTimeString = stringifyCGT(SWCtime);
-  cell.setValue(time +' ('+SWCTimeString+')');
-}
-
-/** Gets the shorthand code for a faction from the parameters */
-function getFAC(faction) {
-  var FAC = findinDB(faction,FACrange,2);
-  return FAC;
-}
 
 /** Removes rows from sheet where there is a duplicate value in column. Assumes the column has no data after the first blank
  * @sheet a sheet object
