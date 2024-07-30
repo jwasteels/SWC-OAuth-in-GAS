@@ -4,6 +4,7 @@ function onOpen() {
       ui.createMenu('🚀SWC API')
       .addSubMenu(ui.createMenu('New users')
       .addItem('New User Authentication','getAuthorization')
+      .addItem('New User Authentication With Extra Scope','exampleAuthorization')
           )
       .addSeparator()
       .addSubMenu(ui.createMenu('Single user operations')
