@@ -41,16 +41,12 @@ function getSWCProfile(handle='') {
     "method" : "GET",
     "muteHttpExceptions": true
   };
-  var response = UrlFetchApp.fetch(api, options);
-  var Profilexml = XmlService.parse(response.getContentText());
-  var profileRoot =Profilexml.getRootElement();
-  var profileElement = profileRoot.getChild('character',swcNamespace);
+  var response = retrieveJSON(api,options);
   var profileObject = {}
-  profileObject.handle = profileElement.getChild('name',swcNamespace).getText()
-  profileObject.UID = profileElement.getChild('uid',swcNamespace).getText()
-  profileObject.faction = profileElement.getChild('faction',swcNamespace).getText()
-  profileObject.factionUID = profileElement.getChild('faction',swcNamespace).getAttribute('uid').getValue()
-  //profileObject.token = accessToken;
+  profileObject.handle = profileJSON.name
+  profileObject.UID = profileJSON.uid
+  profileObject.faction = profileJSON.faction.value
+  profileObject.factionUID = profileJSON.faction.attributes.uid
   
   return profileObject;
   
@@ -68,11 +64,8 @@ function getUID(name) {
       "method" : "GET",
       "muteHttpExceptions": true
     };
-    var response = UrlFetchApp.fetch(api, options);
-    var Profilexml = XmlService.parse(response.getContentText());
-    var profileRoot =Profilexml.getRootElement();
-    var profileElement = profileRoot.getChild('character',swcNamespace);
-    var UID = profileElement.getChild('uid',swcNamespace).getText();
+    var response = retrieveJSON(api, options);
+    var UID = response.character.uid;
   }
   return UID;
 }
