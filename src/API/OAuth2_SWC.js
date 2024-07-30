@@ -1,18 +1,20 @@
 /**
  * The SWC OAuth2 client ID and secret, and other constants
  */
+ const redirect_uri = 'XXX'; //Replace with the output of getRedirectUri
  const CLIENT_ID = 'XXX'; //Replace with your client ID
  const CLIENT_SECRET = 'XXX'; //Replace with your client secret
- const expirationDelay = 60;
+ const default_user = 'XXX'; //Replace with a default user if applicable, or blank
+ const expirationDelay = 60; //This is what is used by the SWC code
  const authorizationBaseUrl = 'https://www.swcombine.com/ws/oauth2/auth/'
  const tokenBaseUrl = 'https://www.swcombine.com/ws/oauth2/token/'
- const redirect_uri = 'XXX'; //Replace with the output of getRedirectUri
+
 
 
 /**
  * Performs the initial authentication of the user with the required scope: builds the authorization url and opens it
  */
-function getAuthorization() {
+function getAuthorization(scope=['CHARACTER_READ']) {
   var response_type = 'code';
   var state = ScriptApp.newStateToken()
     .withMethod('handleAuthorization')
@@ -22,14 +24,6 @@ function getAuthorization() {
   var access_type = 'offline';
   var renew = '&renew_previously_granted=yes';
   
-  var scope = []
-  scope.push('CHARACTER_READ');
-  scope.push('FACTION_INV_OVERVIEW');
-  scope.push('FACTION_INV_MATERIALS_READ');
-  scope.push('FACTION_INV_MATERIALS_TAGS_READ');
-
-  scope = scope.join(' ');
-
   var url = authorizationBaseUrl + '?scope='+ scope + '&state='+stateToken + '&response_type='+response_type+'&redirect_uri='+redirect_uri+'&access_type='+access_type+'&client_id='+CLIENT_ID+renew;
   Logger.log('Full authorization url: '+url);
   openUrl(url);
@@ -115,7 +109,7 @@ function handleAuthorization(request) {
  * @param {integer} type 1=character (default), 2=faction 
  * @return {string} a valid access token
  */
-function getAccessTokenByName(name='XXX', type=1) { //You can set a default character here
+function getAccessTokenByName(name = default_user, type=1) { //You can set a default character here
   //If faction: fetch appropriate character
   if (type==2) {
     name = findinDB(name,accountRange, 3);
