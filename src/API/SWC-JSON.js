@@ -5,20 +5,32 @@
 //function to retrieve JSON file from a given url and return the document object
 function retrieveJSON (url,options={}){
   var document
-  var headers = {
+  var defaultHeaders = {
     'Accept':'application/json'
   }
+   // Merge headers from options with defaultHeaders
+   options.headers = options.headers || {};
+   for (var key in defaultHeaders) {
+     if (defaultHeaders.hasOwnProperty(key)) {
+       options.headers[key] = defaultHeaders[key];
+     }
+   }
   options.muteHttpExceptions=true;
-  options.headers=headers
+  //Logger.log("Options: " + JSON.stringify(options));
   var response = UrlFetchApp.fetch(url, options)
-  Logger.log(response)
+  Logger.log("API response: " + response)
   if(response.getResponseCode() == 200){
     var doc = response.getContentText();
     var object = JSON.parse(doc);
     return object
   } else {
-    Logger.log('Did not expect response code: '+ response.getResponseCode());
-    Logger.log(response);
+    Logger.log('Error calling url ' + url  + 
+    '\r\n with options ' + JSON.stringify(options) + 
+    '\r\n Did not expect response code: '+ response.getResponseCode() + 
+     '\r\n' + response); 
+     SpreadsheetApp.getUi().alert('Did not expect response code: '+ response.getResponseCode() + 
+     '\r\n' + response);
+     //add more error handling here when creating a full project
     return false;
   }  
 }

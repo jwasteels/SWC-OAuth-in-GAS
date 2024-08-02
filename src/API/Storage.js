@@ -96,7 +96,7 @@ function removeTokenFromGlobal (uid='undefined'){
 
 /**
  * Fetches the token object of a specific user from storage by name
- * @param {string} name the handle of the characcter of whom the token is to be retrieved
+ * @param {string} email the email of the characcter of whom the token is to be retrieved
  * @return {object} the token object
  */
  function getTokenFromGlobalByMail(email) {

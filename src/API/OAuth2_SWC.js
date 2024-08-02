@@ -16,7 +16,8 @@ function getAuthorization(scope=['CHARACTER_READ']) {
     var stateToken=state.createToken();
     //Logger.log(stateToken);
   var access_type = 'offline'; //set to 'offline' if you want the script to act on its own, like for automated updates
-  var renew = '&renew_previously_granted=yes';
+  //var renew = '&renew_previously_granted=yes'; //uncomment this if needed
+  var renew= '';
   scope = scope.join(' ');
  
   var url = authorizationBaseUrl + '?scope='+ scope + '&state='+stateToken + '&response_type='+response_type+'&redirect_uri='+redirect_uri+'&access_type='+access_type+'&client_id='+CLIENT_ID+renew;

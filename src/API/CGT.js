@@ -33,3 +33,24 @@ function getSWCTime(cgt='',time='') {
     return SWCTime
   } 
 }
+
+/**
+ * Turn CGT object into a formatted string
+ * @param {object} cgtObject 
+ * @returns string with fixed format for CGT
+ */
+function stringifyCGT(cgtObject) {
+  var cgtString;
+  var cgtYear = cgtObject.Year||cgtObject.years;
+  var cgtDay = cgtObject.Day||cgtObject.days||'0';
+  while (cgtDay.toString().length<3) {
+    cgtDay = '0'+cgtDay;
+  } 
+  var cgtHour = cgtObject.Hour||cgtObject.hours||'0';
+  if (cgtHour.toString().length < 2) {cgtHour = '0'+cgtHour}
+  var cgtMinute = cgtObject.Minute||cgtObject.mins||'0';
+  if (cgtMinute.toString().length < 2) {cgtMinute = '0'+cgtMinute}
+
+  cgtString = 'Y'+cgtYear+'D'+cgtDay+' '+cgtHour+':'+cgtMinute;
+  return cgtString
+}

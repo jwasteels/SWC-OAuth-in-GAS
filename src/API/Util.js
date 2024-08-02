@@ -127,27 +127,6 @@ function removeDuplicates(sheet,column,offset = 1) {
 }
 
 /**
- * Turn CGT object into a formatted string
- * @param {object} cgtObject 
- * @returns string with fixed format for CGT
- */
-function stringifyCGT(cgtObject) {
-  var cgtString;
-  var cgtYear = cgtObject.Year||cgtObject.years;
-  var cgtDay = cgtObject.Day||cgtObject.days;
-  while (cgtDay.length<=3) {
-    cgtDay = '0'+cgtDay;
-  } 
-  var cgtHour = cgtObject.Hour||cgtObject.hours;
-  if (cgtHour.length == 1) {cgtHour = '0'+cgtHour}
-  var cgtMinute = cgtObject.Minute||cgtObject.mins;
-  if (cgtMinute.length == 1) {cgtMinute = '0'+cgtMinute}
-
-  cgtString = 'Y'+cgtYear+'D'+cgtDay+' '+cgtHour+':'+cgtMinute;
-  return cgtString
-}
-
-/**
  * Build a new array containing each unique value from original array
  * @param {array} array array to de-duplicate
  * @returns new array containe each original unique value once

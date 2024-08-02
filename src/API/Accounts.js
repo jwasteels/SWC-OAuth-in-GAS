@@ -9,6 +9,7 @@ function updateAccounts(tokenObject) {
     accountObject.factionUID=tokenObject.factionUID;
     accountObject.handle=tokenObject.handle;
     accountObject.UID=tokenObject.UID;
+    //the next 2 lines are a possible security risk, but are useful for easy debugging when setting up
     accountObject.refreshToken=tokenObject.refreshToken;
     accountObject.accessToken=tokenObject.accessToken;
     accountObject.expiresAt=tokenObject.expiresAt;
