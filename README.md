@@ -25,9 +25,10 @@ Make sure you set these columns as text! Google likes to perform math with UIDs.
 
 Set up a tab Character Profile with these named fields for the 'active user' (and label them). This is not a requirement for your projects, but rather allows you to check basic functionality.
 
-![alt text](image-2.png) `<br/>`
-_SWC_CharName `<br/>`
-_SWC_FactionName `<br/>`
-_SWC_CharUID `<br/>`
-_SWC_FactionUID `<br/>`
-_SWC_ProfileUpdate `<br/>`
+| Excel             | field name         |
+| ----------------- | ------------------ |
+| Character name    | _SWC_CharName      |
+| Character Faction | _SWC_FactionName   |
+| Character UID     | _SWC_CharUID       |
+| Faction UID       | _SWC_FactionUID    |
+| Updated:          | _SWC_ProfileUpdate |
