@@ -1,3 +1,3 @@
 .claspignore
 .clasp.json
-Secrets.js
+/src/API/Secrets.js
