@@ -1,3 +1,4 @@
+const ProfileSheetName = 'Character Profile'
 /**
  * Gets a user's SWC profile based on name, or currect user if known
  * @param {string} handle Name of the character to look up
@@ -31,6 +32,7 @@ function getSWCProfile(handle='') {
  */
  function getSWCProfileByToken(tokenObject, name='') {
   var accessToken = getAccessTokenByToken(tokenObject);
+  Logger.log("Access token to get SWC Profile: " + accessToken);
   var api = 'https://www.swcombine.com/ws/v2.0/character/';
   if (name != '') {api += name + '/'}
   var headers = {
@@ -41,7 +43,9 @@ function getSWCProfile(handle='') {
     "method" : "GET",
     "muteHttpExceptions": true
   };
+  //Logger.log("Headers: " + JSON.stringify(headers));
   var profileJSON = retrieveJSON(api,options);
+  profileJSON = profileJSON.swcapi.character;
   var profileObject = {}
   profileObject.handle = profileJSON.name
   profileObject.UID = profileJSON.uid
@@ -76,7 +80,7 @@ function getUID(name) {
 function loadActiveProfile() {
   try {
     var profile = getSWCProfile();
-    const ProfileSheetName = 'Dashboard'
+
     SpreadsheetApp.setActiveSheet(SpreadsheetApp.getActiveSpreadsheet().getSheetByName(ProfileSheetName))
     SpreadsheetApp.getActiveSheet().getRange('_SWC_CharName').setValue(profile.handle)
     SpreadsheetApp.getActiveSheet().getRange('_SWC_FactionName').setValue(profile.faction)
@@ -87,7 +91,8 @@ function loadActiveProfile() {
     SpreadsheetApp.getActiveSheet().getRange('_SWC_ProfileUpdate').setValue(SWCTimeString);
   } catch (e) {
     Utilities.sleep(1000);
-    var result = SpreadsheetApp.getUi().alert('Waiting for authorization, press OK to continue or cancel to stop.',SpreadsheetApp.getUi().ButtonSet.OK_CANCEL)
+    var result = SpreadsheetApp.getUi().alert('Error: ' + e + 
+        '\r\n Waiting for authorization, press OK to continue or cancel to stop.',SpreadsheetApp.getUi().ButtonSet.OK_CANCEL)
     if (result == SpreadsheetApp.getUi().Button.OK) {loadActiveProfile()}
   }
 }
@@ -122,7 +127,6 @@ function popupActiveUser() {
  * Blanks the lines of the 'active profile'
  */
 function clearActiveProfile() {
-  const ProfileSheetName = 'Dashboard'
   SpreadsheetApp.setActiveSheet(SpreadsheetApp.getActiveSpreadsheet().getSheetByName(ProfileSheetName))
   SpreadsheetApp.getActiveSheet().getRange('_SWC_CharName').setValue('')
   SpreadsheetApp.getActiveSheet().getRange('_SWC_FactionName').setValue('')
