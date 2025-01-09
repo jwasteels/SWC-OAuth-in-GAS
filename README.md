@@ -4,6 +4,8 @@ This repository contains basic files for using the Star Wars Combine Web Service
 
 ## Deployment
 
+You can use CLASP to sync the src folder to your Google script. If not, manually copy the content of the .js files in the src folder (including the API folder) into script files in your project.
+
 You will need to add these scopes to your worksheet's apssscript.json:
 
 ```
